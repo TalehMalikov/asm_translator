@@ -19,5 +19,9 @@ class CodeWriter:
     def write_back(self, hack):
         self.file.write(hack + '\n')
 
+    def reset_dynamic_symbol_table(self):
+        self.translations.dynamic_symbol_table = {}
+        self.translations.variable_address = 16
+
     def close(self):
         self.file.close()

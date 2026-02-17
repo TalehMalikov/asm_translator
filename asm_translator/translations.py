@@ -1,5 +1,5 @@
 class Translations:
-    symbol_table = {
+    constant_symbol_table = {
         'SP': 0,
         'LCL': 1,
         'ARG': 2,
@@ -24,6 +24,8 @@ class Translations:
         'SCREEN': 16384,
         'KBD': 24576   
     }
+
+    dynamic_symbol_table = {}
 
     alu_commands_a_0 = {
         '0': '101010',
@@ -87,12 +89,14 @@ class Translations:
     def translate_a_command(self, command) -> str:
         if command[1:].isdigit(): # command is a number, so convert to binary and return
             return self.convert_to_binary(int(command[1:]))
-        elif self.symbol_table.get(command[1:]) is not None: # added symbol => either label or variable
-            return self.convert_to_binary(self.symbol_table[command[1:]])
+        elif self.constant_symbol_table.get(command[1:]) is not None: # added symbol => either label or variable
+            return self.convert_to_binary(self.constant_symbol_table[command[1:]])
+        elif self.dynamic_symbol_table.get(command[1:]) is not None:
+            return self.convert_to_binary(self.dynamic_symbol_table[command[1:]])
         else:
-            self.symbol_table[command[1:]] = self.variable_address # add new variable to symbol table and assign address, then return binary of address
+            self.dynamic_symbol_table[command[1:]] = self.variable_address # add new variable to dynamic symbol table and assign address, then return binary of address
             self.variable_address += 1
-            return self.convert_to_binary(self.symbol_table[command[1:]])
+            return self.convert_to_binary(self.dynamic_symbol_table[command[1:]])
 
     def translate_c_command(self, command) -> str: #standard c-instruction translation
         dest, comp, jump = 'null', command, 'null'
@@ -111,8 +115,8 @@ class Translations:
         return '111' + a_bit + comp_bits + dest_bits + jump_bits
 
     def add_l_command_to_table(self, command, label_address):
-        if self.symbol_table.get(command[1:-1]) is None: # add label to symbol table with address of next command
-            self.symbol_table[command[1:-1]] = label_address
+        if self.dynamic_symbol_table.get(command[1:-1]) is None: # add label to symbol table with address of next command
+            self.dynamic_symbol_table[command[1:-1]] = label_address
     
     def convert_to_binary(self, value):
         return bin(value)[2:].zfill(16)

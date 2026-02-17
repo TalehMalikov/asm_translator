@@ -7,6 +7,8 @@ class ASMTranslator:
         self.code_writer = CodeWriter(input_file.replace('.asm', '.hack'))
     
     def translate(self):
+        self.code_writer.reset_dynamic_symbol_table()
+        
         self.parse_all_l_commands()
 
         self.parser.current = -1  # reset parser to start translating commands
