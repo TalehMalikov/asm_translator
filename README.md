@@ -1,4 +1,8 @@
 # Hack Assembler – Project 6 (Nand2Tetris)
+
+
+## This submission uses my free late pass for Project 6
+
 A Python-based Hack Assembler that converts Hack Assembly (`.asm`) into Hack Machine Code (`.hack`), built as part of the Nand2Tetris course (Project 6).
 
 ---
