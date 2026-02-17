@@ -1,6 +1,18 @@
-def main():
-    print("Hello from malikovtalehproject6!")
+from asm_translator.asm_translator import ASMTranslator
 
+if __name__ == '__main__':
+    test_files = [
+        'data/add/Add.asm',
+        'data/max/Max.asm',
+        'data/max/MaxL.asm',
+        'data/pong/Pong.asm',
+        'data/pong/PongL.asm',
+        'data/pong/Rect.asm',
+        'data/pong/RectL.asm',
+    ]
 
-if __name__ == "__main__":
-    main()
+    for f in test_files:
+        print(f"Translating {f}...")
+        translator = ASMTranslator(f)
+        translator.translate()
+        print(f"Done!")
