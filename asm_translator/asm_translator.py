@@ -12,19 +12,18 @@ class ASMTranslator:
         self.parser.current = -1  # reset parser to start translating commands
 
         while self.parser.has_more_lines():
-            self.parser.advance()
             
+            self.parser.advance()
+
             if self.parser.command_type() == 'A_COMMAND':
                 self.code_writer.write_a_command(self.parser.segment())
-    
             elif self.parser.command_type() == 'C_COMMAND': 
                 self.code_writer.write_c_command(self.parser.segment())
     
         self.code_writer.close()
 
     def parse_all_l_commands(self):
-        for index, command in enumerate(self.parser.commands):
+        while self.parser.has_more_lines():
+            self.parser.advance()
             if self.parser.command_type() == 'L_COMMAND':
-                self.code_writer.add_l_command_to_table(command, index)
-            else:
-                self.code_writer.write_back(command)
+                self.code_writer.add_l_command_to_table(self.parser.segment(), self.parser.current)

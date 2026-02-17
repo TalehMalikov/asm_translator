@@ -60,6 +60,7 @@ class Translations:
     }
 
     jump_commands = {
+        'null': '000',
         'JGT': '001',
         'JEQ': '010',
         'JGE': '011',
@@ -109,8 +110,9 @@ class Translations:
 
         return '111' + a_bit + comp_bits + dest_bits + jump_bits
 
-    def add_l_command_to_table(self, command, index):
-        self.symbol_table[command[1:-1]] = index
+    def add_l_command_to_table(self, command, label_address):
+        if self.symbol_table.get(command[1:-1]) is None: # add label to symbol table with address of next command
+            self.symbol_table[command[1:-1]] = label_address
     
     def convert_to_binary(self, value):
         return bin(value)[2:].zfill(16)

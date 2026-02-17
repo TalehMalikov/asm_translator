@@ -7,8 +7,8 @@ if __name__ == '__main__':
         'data/max/MaxL.asm',
         'data/pong/Pong.asm',
         'data/pong/PongL.asm',
-        'data/pong/Rect.asm',
-        'data/pong/RectL.asm',
+        'data/rect/Rect.asm',
+        'data/rect/RectL.asm',
     ]
 
     for f in test_files:
